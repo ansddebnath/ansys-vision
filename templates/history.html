@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history-style.css') }}">
+{% endblock %}
+{% block body %}
+<div class="history-container">
+    {% if history %}
+    <h1 class="registration-title">Analysis History</h1>
+    
+    {% if error %}
+    <div class="error-message">
+        <p>Error loading history: {{ error }}</p>
+    </div>
+    {% endif %}
+
+    <div class="container mt-4">
+        <div class="alert alert-info">
+            Average Rating: {{ average_rating }}%
+        </div>
+    </div>
+    
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th data-width="20%">Image</th>
+                <th data-width="20%">Analysis Result</th>
+                <th data-width="10%">Rating</th>
+                <th data-width="30%">Comment</th>
+                <th data-width="10%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in history %}
+            <tr class = "table-cells" data-id="{{ item.name }}">
+                <td class="image-cell">
+                    <img src="{{ item.image_url }}" alt="{{ item.name }}" class="history-image">
+                </td>
+                <td class="ai-output">{{ item.ai_output }}</td>
+                <td class="rating-cell">
+                    {% if item.rating %}
+                    <span class="rating-value">{{ item.rating }}/10</span>
+                    {% else %}
+                    <span class="no-rating">No rating</span>
+                    {% endif %}
+                </td>
+                <td class="comment-cell">
+                    {% if item.comment %}
+                    <span class="comment-value">{{ item.comment }}</span>
+                    {% else %}
+                    <span class="no-rating">No comment</span>
+                    {% endif %}
+                </td>
+                <td class="action-cell">
+                    <button class="edit-btn" onclick="editEntry(this)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="delete-btn" onclick="deleteEntry(this)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Add pagination controls -->
+    {% if total_pages|default(1) > 1 %}
+    <div class="pagination">
+        {% if current_page > 1 %}
+        <a href="{{ url_for('history.history', page=current_page-1) }}" class="page-link">&laquo; Previous</a>
+        {% endif %}
+        
+        {% for page_num in range(1, total_pages + 1) %}
+        {% if page_num == current_page %}
+        <span class="page-link active">{{ page_num }}</span>
+        {% else %}
+        <a href="{{ url_for('history.history', page=page_num) }}" class="page-link">{{ page_num }}</a>
+        {% endif %}
+        {% endfor %}
+        
+        {% if current_page < total_pages %}
+        <a href="{{ url_for('history.history', page=current_page+1) }}" class="page-link">Next &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="no-history">
+        <p>No analysis history available.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit Entry</h2>
+        <form id="editForm">
+            <input type="hidden" id="editImageName">
+            <div class="form-group">
+                <label for="editRating">Rating (0-10):</label>
+                <input type="range" id="editRating" min="0" max="10" value="0">
+                <span id="editRatingValue">0</span>
+            </div>
+            <div class="form-group">
+                <label for="editComment">Comment:</label>
+                <textarea id="editComment"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="save-btn">Save Changes</button>
+                <button type="button" class="cancel-btn">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/history-script.js') }}"></script>
+{% endblock %}

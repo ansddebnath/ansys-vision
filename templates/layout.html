@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Ansys Vision{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Ansys_head.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home-style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+{% block head %}
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/Ansys.png') }}" alt="Ansys logo" class="header_logo">
+        </div>
+        <nav class="nav-menu">
+            <a href="/" class="nav-item">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/history" class="nav-item">
+                <i class="fa fa-history"></i>
+                <span>History</span>
+            </a>
+            <a href="/logout" class="nav-item">
+                <i class="fa fa-sign-out"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </div>
+</header>
+{% endblock %}
+{% block body %} {% endblock %}
+{% block footer %}
+<footer class="main-footer">
+    <div class="footer-container">
+        <p class="footer-text"> &copy; 2025 Copyright Ansys Inc</p>
+    </div>
+</footer>
+{% endblock %}
+<script src="{{ url_for('static', filename='js/home-script.js') }}"></script>
+</html>

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="content-container">
+    <!-- Upload Section -->
+    <div class="upload-section">
+        <div class="registration-container">
+            <h1 class="registration-title">Ansys image analyzer</h1>
+            <p class="registration-subtitle">Upload the picture or enter the URL for analysis</p>
+            
+            <div class="upload-zone">
+                <i class="upload-icon fa fa-cloud-upload"></i>
+                <p class="upload-text">Drag and drop or click here</p>
+                <p class="upload-hint">To upload your document (max 5 MB)</p>
+            </div>
+            
+            <div class="web-link-section">
+                <input type="text" id="web-link" class="web-link-input" placeholder="Input the image url">
+                <i class="material-icons">link</i>
+            </div>
+            
+            <div class="action-container">
+                <button class="action-button">Fetch data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Section (initially hidden) -->
+    <div class="preview-section" id="results" style="display: none;">
+        <div class="image-preview">
+            <img id="preview-image" src="" alt="Uploaded image">
+        </div>
+        <div id="analysis-results" class="analysis-results">
+            <!-- Analysis results will be inserted here -->
+        </div>
+    </div>
+    
+    <!-- Feedback Section (initially hidden) -->
+    <div class="feedback-section" id="feedback" style="display: none;">
+        <h3>Provide Feedback</h3>
+        <div class="rating-container">
+            <p>Rate the analysis:</p>
+            <div class="slider-container">
+                <input type="range" id="rating-slider" min="0" max="10" value="0" step="1">
+                <div class="slider-value">0</div>
+            </div>
+        </div>
+        <div class="comment-container">
+            <textarea id="user-comment" placeholder="Add your comments..." class="comment-input"></textarea>
+            <button class="submit-feedback-btn">Submit Feedback</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
